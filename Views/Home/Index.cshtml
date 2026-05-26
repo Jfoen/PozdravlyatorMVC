@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Поздравлятор";
+}
+
+<div class="container mt-5">
+
+    <div class="text-center mb-5">
+        <h1 class="display-3">🎉 Поздравлятор</h1>
+        <p class="lead">Система учёта дней рождения друзей и коллег</p>
+    </div>
+
+    <div class="row text-center mb-5">
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Все дни рождения</h5>
+                    <p class="card-text">Полный список записей</p>
+                    <a asp-controller="Birthdays" asp-action="Index" class="btn btn-primary">
+                        Открыть
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Сегодня 🎉</h5>
+                    <p class="card-text">Кто празднует сегодня</p>
+                    <a asp-controller="Birthdays" asp-action="Today" class="btn btn-success">
+                        Посмотреть
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Ближайшие</h5>
+                    <p class="card-text">Дни рождения на 14 дней</p>
+                    <a asp-controller="Birthdays" asp-action="Upcoming" class="btn btn-warning">
+                        Открыть
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="text-center">
+        <a asp-controller="Birthdays" asp-action="Create" class="btn btn-lg btn-outline-primary">
+            + Добавить день рождения
+        </a>
+    </div>
+
+</div>

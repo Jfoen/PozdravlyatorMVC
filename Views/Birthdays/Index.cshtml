@@ -1,0 +1,53 @@
+@model IEnumerable<Pozdravlyator.Models.BirthdayPerson>
+
+<div class="container mt-4">
+
+    <h1 class="mb-4">🎉 Дни рождения</h1>
+
+    <table class="table table-striped table-hover">
+
+        <thead>
+            <tr>
+                <th>Имя</th>
+                <th>Дата рождения</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        @foreach (var item in Model)
+        {
+            var today = DateTime.Today;
+
+            var isToday = item.BirthDate.Month == today.Month &&
+                          item.BirthDate.Day == today.Day;
+
+            var isSoon = new DateTime(today.Year, item.BirthDate.Month, item.BirthDate.Day)
+                         <= today.AddDays(7);
+
+            <tr class="@(isToday ? "table-danger" : isSoon ? "table-warning" : "")">
+
+                <td>@item.FullName</td>
+                <td>@item.BirthDate.ToShortDateString()</td>
+
+                <td>
+                    <a class="btn btn-sm btn-warning"
+                       asp-action="Edit"
+                       asp-route-id="@item.Id">
+                        Редактировать
+                    </a>
+
+                    <a class="btn btn-sm btn-danger"
+                       asp-action="Delete"
+                       asp-route-id="@item.Id">
+                        Удалить
+                    </a>
+                </td>
+
+            </tr>
+        }
+        </tbody>
+
+    </table>
+
+</div>

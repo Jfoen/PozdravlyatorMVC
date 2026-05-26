@@ -1,0 +1,31 @@
+@model Pozdravlyator.Models.BirthdayPerson
+
+<h1>Удаление</h1>
+
+<h3>Вы уверены, что хотите удалить?</h3>
+
+<div>
+    <p>
+        <strong>Имя:</strong>
+        @Model.FullName
+    </p>
+
+    <p>
+        <strong>Дата рождения:</strong>
+        @Model.BirthDate.ToShortDateString()
+    </p>
+</div>
+
+<form asp-action="Delete">
+
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit">
+        Удалить
+    </button>
+
+</form>
+
+<br />
+
+<a asp-action="Index">Назад</a>

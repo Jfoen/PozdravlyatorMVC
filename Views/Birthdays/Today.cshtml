@@ -1,0 +1,31 @@
+@model IEnumerable<Pozdravlyator.Models.BirthdayPerson>
+
+<div class="container mt-4">
+
+    <h1>🎉 Сегодня дни рождения</h1>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info mt-3">
+            Сегодня никто не празднует 🎂
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered mt-3">
+            <tr>
+                <th>Имя</th>
+                <th>Дата рождения</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr class="table-success">
+                    <td>@item.FullName</td>
+                    <td>@item.BirthDate.ToShortDateString()</td>
+                </tr>
+            }
+        </table>
+    }
+
+</div>

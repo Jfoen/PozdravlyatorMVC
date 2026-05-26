@@ -1,0 +1,30 @@
+@model Pozdravlyator.Models.BirthdayPerson
+
+<div class="container mt-4">
+
+    <h1>Добавить день рождения</h1>
+
+    <form asp-action="Create">
+
+        <div class="mb-3">
+            <label class="form-label">Имя</label>
+            <input class="form-control" asp-for="FullName" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Дата рождения</label>
+            <input class="form-control" asp-for="BirthDate" type="date" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Фото (путь)</label>
+            <input class="form-control" asp-for="PhotoPath" />
+        </div>
+
+        <button class="btn btn-primary" type="submit">
+            Сохранить изменения
+        </button>
+
+    </form>
+
+</div>
