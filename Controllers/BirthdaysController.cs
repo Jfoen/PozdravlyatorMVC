@@ -8,10 +8,12 @@ namespace Pozdravlyator.Controllers;
 public class BirthdaysController : Controller
 {
     private readonly AppDbContext _context;
+    private readonly IWebHostEnvironment _env;
 
-    public BirthdaysController(AppDbContext context)
+    public BirthdaysController(AppDbContext context, IWebHostEnvironment env)
     {
         _context = context;
+        _env = env;
     }
 
     public async Task<IActionResult> Index()
@@ -28,18 +30,42 @@ public class BirthdaysController : Controller
 
     // Обрабатывает отправку формы
     [HttpPost]
-    public async Task<IActionResult> Create(BirthdayPerson person)
+    public async Task<IActionResult> Create(BirthdayPerson person, IFormFile PhotoFile)
     {
         if (ModelState.IsValid)
         {
-            _context.Birthdays.Add(person);
+            if (PhotoFile != null && PhotoFile.Length > 0)
+            {
+                var fileName = Guid.NewGuid() + Path.GetExtension(PhotoFile.FileName);
 
+                var webRoot = _env.WebRootPath
+              ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+
+                var folder = Path.Combine(webRoot, "images");
+
+                if (!Directory.Exists(folder))
+                {
+                    Directory.CreateDirectory(folder);
+                }
+
+                var path = Path.Combine(folder, fileName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await PhotoFile.CopyToAsync(stream);
+                }
+
+                person.PhotoPath = "/images/" + fileName;
+            }
+
+            _context.Birthdays.Add(person);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
         }
 
         return View(person);
+
     }
     public async Task<IActionResult> Edit(int? id)
     {
@@ -59,7 +85,7 @@ public class BirthdaysController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit(int id, BirthdayPerson person)
+    public async Task<IActionResult> Edit(int id, BirthdayPerson person, IFormFile PhotoFile)
     {
         if (id != person.Id)
         {
@@ -68,29 +94,39 @@ public class BirthdaysController : Controller
 
         if (ModelState.IsValid)
         {
-            _context.Update(person);
+            if (PhotoFile != null && PhotoFile.Length > 0)
+            {
+                var fileName = Guid.NewGuid() + Path.GetExtension(PhotoFile.FileName);
 
+                var folder = Path.Combine(_env.WebRootPath, "images");
+
+                if (!Directory.Exists(folder))
+                {
+                    Directory.CreateDirectory(folder);
+                }
+
+                var path = Path.Combine(folder, fileName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await PhotoFile.CopyToAsync(stream);
+                }
+
+                person.PhotoPath = "/images/" + fileName;
+            }
+            else
+            {
+                // если фото не загрузили — оставить старое
+                var existing = await _context.Birthdays.AsNoTracking()
+                    .FirstOrDefaultAsync(x => x.Id == id);
+
+                person.PhotoPath = existing?.PhotoPath;
+            }
+
+            _context.Update(person);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
-        }
-
-        return View(person);
-    }
-
-    public async Task<IActionResult> Delete(int? id)
-    {
-        if (id == null)
-        {
-            return NotFound();
-        }
-
-        var person = await _context.Birthdays
-            .FirstOrDefaultAsync(m => m.Id == id);
-
-        if (person == null)
-        {
-            return NotFound();
         }
 
         return View(person);

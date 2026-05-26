@@ -37,12 +37,23 @@
                         Редактировать
                     </a>
 
-                    <a class="btn btn-sm btn-danger"
-                       asp-action="Delete"
-                       asp-route-id="@item.Id">
+                <form asp-action="Delete"
+                      asp-route-id="@item.Id"
+                      method="post"
+                      style="display:inline;">
+
+                    <button type="submit" class="btn btn-sm btn-danger">
                         Удалить
-                    </a>
+                    </button>
+
+                </form>
                 </td>
+
+                        <td>
+            <img src="@item.PhotoPath"
+                 alt="photo"
+                 style="width:60px;height:60px;object-fit:cover;border-radius:50%;" />
+        </td>
 
             </tr>
         }
