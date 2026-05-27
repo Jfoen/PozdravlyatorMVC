@@ -4,7 +4,7 @@
 
 Я разработал небольшое MVC-приложение с CRUD и UI на базе ASP.NET Core MVC.
 
-В рамках проекта реализована работа с HTTTP-методами [POST] и [GET]; Базовые операции с CRUD в СУБД SQLITE; а также с Bootstrap для адаптивного интерфейса.
+В рамках проекта реализована работа с HTTTP-методами; Базовые операции с CRUD в СУБД SQLITE; а также с Bootstrap для адаптивного интерфейса.
 
 
 <img width="1920" height="420" alt="{0AB1E925-496B-4D34-8DE1-19104E995964}" src="https://github.com/user-attachments/assets/f356afc0-60e0-4eb1-aff5-3c048e0acf69" />
